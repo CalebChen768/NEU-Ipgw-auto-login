@@ -1,2 +1,2 @@
 # NEU-Ipgw-auto-login
-A Python script for automatic login to NEU ipgw
+将NEU统一认证账号密码填入`config.ini`文件中,运行`login.py`即可。

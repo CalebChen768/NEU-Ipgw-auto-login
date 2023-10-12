@@ -1,4 +1,19 @@
-# NEU-Ipgw-auto-login
-将NEU统一认证账号密码填入`config.ini`文件中，运行`login.py`即可。  
+## 自动认证东北大学校园网脚本
+### 1. 填写账号密码
+在`config.ini`中填写自己的统一登录账号密码，如
+``` 
+[info]
+StudentID = 20001234
+password = 12345678 
+```
 
-## 需要`requests`库
+### 2. 环境要求
+python3
+requests库
+
+### 3. 运行脚本
+```
+python3 login.py
+```
+
+注：可以搭配自动化脚本，如Mac的“捷径”，实现一键快速登录。

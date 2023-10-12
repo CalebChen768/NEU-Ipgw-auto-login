@@ -8,8 +8,7 @@ password = 12345678
 ```
 
 ### 2. 环境要求
-python3
-requests库
+python3 + requests库
 
 ### 3. 运行脚本
 ```

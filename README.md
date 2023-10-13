@@ -1,4 +1,6 @@
 ## 自动认证东北大学校园网脚本
+javascript版本->https://github.com/CalebChen768/NEU_ipgw_login_js/tree/main
+
 ### 1. 填写账号密码
 在`config.ini`中填写自己的统一登录账号密码，如
 ``` 

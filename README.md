@@ -20,4 +20,4 @@ python3 login.py
 注：可以搭配自动化脚本，如Mac的“捷径”，实现一键快速登录。
 
 ## 最近更新
-2023-11-11:今日ipgw登录流程出现更新，比如：登录过程需要从[https://ipgw.neu.edu.cn/checkacid]进行get请求获取`mysession`的cookie
+2023-11-11:今日ipgw登录流程出现更新，比如：登录过程需要从https://ipgw.neu.edu.cn/checkacid 进行get请求获取`mysession`的cookie

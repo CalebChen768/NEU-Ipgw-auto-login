@@ -28,18 +28,26 @@ class Ipgw_login(object):
     def login_with_acid(self,ac_id):
         # 访问统一登录获取lt
         session = requests.Session()
+
         get_pass_page = session.get(self.login_url.format(ac_id))
+
+        # 用于更新cookie:mysession
+        temp = session.get("https://ipgw.neu.edu.cn/checkacid")
+
         if get_pass_page.status_code != 200:
             return False, f'访问pass.neu.edu.cn失败，状态码：{get_pass_page.status_code}'
+        
         # text = ...<input type="hidden" id="lt" name="lt" value="LT-29360-**********-tpass" />\r\n\t\t\t
         text = get_pass_page.text
-
+        # print(text)
         # 获取lt (login token)
         target = '<input type="hidden" id="lt" name="lt" value="'
         # half = LT-29360-**********-tpass" />\r\n\t\t\t
         half = text[text.index(target) + len(target):]
         # lt = LT-29360-**********-tpass
         lt = half[:half.index('"')]
+
+        # print(lt)
 
         # 获取execution
         target = '<input type="hidden" name="execution" value="'
@@ -61,17 +69,19 @@ class Ipgw_login(object):
                                         'execution': execution,
                                         '_eventId': 'submit'})
         
-        text = get_sso_href.text
+        if get_sso_href.status_code != 302:
+            return False, f'访问pass.neu.edu.cn失败，状态码：{get_sso_href.status_code}'
+        else:
+            # 重定向url
+            # print(get_pass_page.headers)
+            href = dict(get_sso_href.headers).get("Location")
 
-        # 检测是否账号错误
-        if '账号不存在' in text:
-            return False, '可能是①账号或密码错误 ③登录流程需要更新'
+        session.headers.update({
+            'Proxy-Connection':'keep-alive'
+        })
 
-        # 获取ticket
-        target = 'ticket='
-        half = text[text.index(target) + len(target):]
-        href = half[:half.index('"')]
-        sso_login = session.get(f'http://ipgw.neu.edu.cn/v1/srun_portal_sso?ac_id={ac_id}&ticket=' + href)
+        sso_login = session.get(href.replace('http://ipgw.neu.edu.cn/','http://ipgw.neu.edu.cn/v1/'))
+
         if 'success' in sso_login.text:
             return True, None
         else:
@@ -101,6 +111,8 @@ class Ipgw_login(object):
             if result:
                 return True, message
             results[acid] = message
+
+        # print(results)
         return False, results
 
 def main():
